@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:personal/core/services/navigation/src/app_router.dart';
+import 'package:personal/core/utilities/src/helper/helper_method.dart';
 import 'package:window_size/window_size.dart';
 
 import 'core/utilities/src/extensions/extensions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  takeLocationPermission();
 
   if (isWindows || isMacOs || isLinux) {
     // Get the screen size

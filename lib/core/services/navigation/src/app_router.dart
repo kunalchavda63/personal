@@ -7,7 +7,7 @@ import 'package:personal/features/onboarding/otp_screen.dart';
 import 'package:personal/features/onboarding/register_screen.dart';
 
 final goRouterConfig = GoRouter(
-  initialLocation: RoutesEnum.artists.path,
+  initialLocation: RoutesEnum.onboard.path,
   debugLogDiagnostics: true,
   routes: [
     GoRoute(

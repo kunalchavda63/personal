@@ -106,25 +106,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   log('Tapped');
 
                   Position position = await determinePosition();
-
+                  List<Placemark> placeMark = await getListPlace(position);
+                  print(placeMark.toString());
                   log(
                     'Latitude: ${position.latitude}, Longitude: ${position.longitude}',
                   );
-
-                  List<Placemark> placemarks = await placemarkFromCoordinates(
-                    position.latitude,
-                    position.longitude,
-                  );
-
-                  if (placemarks.isNotEmpty) {
-                    final place = placemarks.first;
-                    log('Place name: ${place.name}');
-                    log(
-                      'Full address: ${place.street}, ${place.locality}, ${place.administrativeArea}, ${place.country}',
-                    );
-                  } else {
-                    log('No placemarks found.');
-                  }
                 } catch (e) {
                   log('Error getting location: $e');
                 }
