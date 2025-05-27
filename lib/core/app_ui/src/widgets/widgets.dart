@@ -3,9 +3,11 @@ import 'package:personal/core/app_ui/src/widgets/src/buttons/buttons.dart';
 import 'package:personal/core/app_ui/src/widgets/src/buttons/src/custom_white_border_button.dart';
 import 'package:personal/core/app_ui/src/widgets/src/custom_appbar.dart';
 import 'package:personal/core/app_ui/src/widgets/src/custom_bottom_nav.dart';
+import 'package:personal/core/app_ui/src/widgets/src/custom_can_copy.dart';
 import 'package:personal/core/app_ui/src/widgets/src/custom_container.dart';
 import 'package:personal/core/app_ui/src/widgets/src/custom_floating_button.dart';
 import 'package:personal/core/app_ui/src/widgets/src/custom_imageview.dart';
+import 'package:personal/core/app_ui/src/widgets/src/custom_material_icon.dart';
 import 'package:personal/core/app_ui/src/widgets/src/custom_text.dart';
 import 'package:personal/core/app_ui/src/widgets/src/custom_text_field.dart';
 import 'package:personal/core/models/src/bottom_nav_model.dart';
@@ -224,5 +226,33 @@ class CustomWidgets {
       currentIndex: currentIndex ?? 0,
       onTap: onTap,
     );
+  }
+
+  // Custom Icon Widget
+  static Widget customIconWidget({
+    IconData? icon,
+    double? size,
+    Color? color,
+    double? fill,
+    BlendMode? blendMode,
+    String? semanticLabel,
+    double? opticalSize,
+    List<Shadow>? shadows,
+  }) {
+    return CustomMaterialIcon(
+      icon: icon,
+      size: size,
+      color: color,
+      fill: fill,
+      blendMode: blendMode,
+      semanticLabel: semanticLabel,
+      opticalSize: opticalSize,
+      shadows: shadows,
+    );
+  }
+
+  // Custom Can Copy Text
+  static Widget customCanCopyText(String? text) {
+    return CustomCanCopy(text: text);
   }
 }

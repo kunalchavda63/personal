@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:personal/core/app_ui/src/widgets/src/app_outline_input_border.dart';
+import 'package:personal/core/models/models.dart';
 import 'package:personal/core/services/network/base/app_dio_manager.dart';
+import 'package:personal/core/utilities/src/app_url.dart';
 import 'package:personal/features/artists/provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/app_ui/app_ui.dart';
 import '../../core/utilities/utils.dart';
@@ -18,14 +21,20 @@ class Artists extends ConsumerStatefulWidget {
 }
 
 class _ArtistsState extends ConsumerState<Artists> {
+  late Size size;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    size = MediaQuery.of(context).size;
+  }
+
   final TextEditingController titleController = TextEditingController();
   final TextEditingController subTitleController = TextEditingController();
-
   final OutlinedInputBorder border = OutlinedInputBorder(
     borderRadius: BorderRadius.circular(8),
     borderSide: BorderSide(color: AppColors.hex1ed7),
   );
-
   final OutlinedInputBorder noteBorder = OutlinedInputBorder(
     borderRadius: BorderRadius.circular(8),
     borderSide: BorderSide(color: AppColors.hex1ed7),
@@ -33,11 +42,17 @@ class _ArtistsState extends ConsumerState<Artists> {
 
   @override
   Widget build(BuildContext context) {
+    const imageData =
+        'https://images.pexels.com/photos/206901/pexels-photo-206901.jpeg?auto=compress&cs=tinysrgb&w=1200';
     final todoList = ref.watch(notesProvider);
     final operation = ref.read(notesProvider.notifier);
 
     void addNote(String title, String subtitle) {
       operation.addNote(title, subtitle);
+    }
+
+    void toggleLike(String id, bool? isLiked) {
+      operation.toggleLike(id, isLiked);
     }
 
     // void remove(String id) {
@@ -55,87 +70,9 @@ class _ArtistsState extends ConsumerState<Artists> {
         backgroundColor: AppColors.hex2828,
         label: 'g',
         onTap: () async {
-          // showDialog(
-          //   context: context,
-          //   builder: (context) {
-          //     return Dialog(
-          //       alignment: Alignment.center,
-          //       insetPadding: EdgeInsets.all(20),
-          //       child: CustomWidgets.customContainer(
-          //         border: Border.all(color: Colors.yellow.withAlpha(55)),
-          //         borderRadius: BorderRadius.circular(10),
-          //         h: MediaQuery.of(context).size.height * 0.45,
-          //         w: isWindows ? MediaQuery.of(context).size.width * 0.30 : 300,
-          //         color: AppColors.hex2828,
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           children: [
-          //             CustomWidgets.customText(
-          //               data: 'Add Todo',
-          //               style: BaseStyle.s19w900.c(AppColors.white).w(400),
-          //             ).padLeft(20).padV(20),
-          //
-          //             CustomWidgets.customText(
-          //               data: 'Title',
-          //               style: BaseStyle.s16w900.c(AppColors.hex1ed7).w(400),
-          //             ).padLeft(10),
-          //             CustomWidgets.customTextField(
-          //               fillColor: AppColors.hex1212,
-          //               controller: titleController,
-          //               filled: true,
-          //               border: noteBorder,
-          //               hintText: 'Title',
-          //               hintStyle: BaseStyle.s16w900.c(AppColors.white).w(400),
-          //               style: BaseStyle.s16w900.c(AppColors.white).w(500),
-          //             ).padH(10).padV(10).padBottom(10),
-          //
-          //             CustomWidgets.customText(
-          //               data: 'Description',
-          //               style: BaseStyle.s16w900.c(AppColors.hex1ed7).w(400),
-          //             ).padLeft(10),
-          //             CustomWidgets.customTextField(
-          //               fillColor: AppColors.hex1212,
-          //               controller: subTitleController,
-          //               filled: true,
-          //               border: noteBorder,
-          //               hintText: 'Description',
-          //               hintStyle: BaseStyle.s16w900.c(AppColors.white).w(400),
-          //               style: BaseStyle.s16w900.c(AppColors.white).w(500),
-          //             ).padH(10).padV(10).padBottom(20),
-          //             Center(
-          //               child: CustomWidgets.customContainer(
-          //                 onTap: () {
-          //                   var title = titleController.text.trim();
-          //                   var subTitle = subTitleController.text.trim();
-          //                   if (title.isNotEmpty || subTitle.isNotEmpty) {
           addNote('Post', 'Description');
-          // }
-          // titleController.clear();
-          // subTitleController.clear();
-          //
-          // context.pop();
-          // },
-          // h: 40,
-          // w: 100,
-          // color: AppColors.hex1212,
-          // borderRadius: BorderRadius.circular(10),
-          // border: Border.all(color: AppColors.hex1ed7),
-          // alignment: Alignment.center,
-          // child: Text(
-          //   'Submit',
-          //   style: BaseStyle.s14w500.c(AppColors.white),
-          // ),
-          // ),
-          // ),
-          // ],
-          // ),
-          // ),
-          // );
-          // },
-          // );
           fetchData();
 
-          // addNote();
           log('Press Btn');
         },
         child: Icon(Icons.add, color: AppColors.white),
@@ -171,18 +108,144 @@ class _ArtistsState extends ConsumerState<Artists> {
                 }
                 final note = todoList[index];
                 return CustomWidgets.customContainer(
-                  h: 200,
+                  padding: EdgeInsets.all(10),
+                  alignment: Alignment.center,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: AppColors.hexF5f5),
                   child: Column(
                     children: [
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomWidgets.customText(
                             data: "${note.title} ${index + 1}" ?? '',
-                            style: BaseStyle.s20w900.c(AppColors.white),
-                          ).padLeft(10),
+                            style: BaseStyle.s20w900.c(AppColors.hex1ed7),
+                          ),
+                          Icon(
+                            Icons.drag_indicator,
+                            color: AppColors.hex1ed7,
+                            size: 30,
+                          ),
                         ],
+                      ),
+                      CustomWidgets.customContainer(
+                        h: 200,
+                        w: size.width,
+                        child: CustomWidgets.customImageView(
+                          fit: BoxFit.cover,
+                          path: imageData,
+                          sourceType: ImageType.network,
+                        ),
+                      ),
+                      CustomWidgets.customContainer(
+                        h: 60,
+                        w: size.width,
+                        color: AppColors.hex1212,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    toggleLike(note.id, note.isLiked);
+                                  },
+                                  child: CustomWidgets.customIconWidget(
+                                    icon:
+                                        note.isLiked == true
+                                            ? Icons.circle
+                                            : Icons.circle_outlined,
+                                    color: AppColors.hex1ed7,
+                                  ).padLeft(10),
+                                ),
+                                CustomWidgets.customText(
+                                  data: 'Like',
+                                  style: BaseStyle.s16w900.c(AppColors.hex7777),
+                                ).padLeft(10),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                CustomWidgets.customIconWidget(
+                                  icon: Icons.comment_outlined,
+                                  color: AppColors.hex1ed7,
+                                ).padLeft(10),
+                                CustomWidgets.customText(
+                                  data: 'Comment',
+                                  style: BaseStyle.s16w900.c(AppColors.hex7777),
+                                ).padLeft(10),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    const data = imageData;
+                                    context.showCustomBottomSheet(
+                                      bgColor: AppColors.hex1212,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          CustomWidgets.customText(
+                                            data: AppStrings.share,
+                                            style: BaseStyle.s10w700.c(
+                                              AppColors.white,
+                                            ),
+                                          ),
+                                          CustomWidgets.customCanCopyText(
+                                            data,
+                                          ).padTop(20),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              customCircleIcon(
+                                                data: 'C',
+                                                onTap:
+                                                    () => launchUri(imageData),
+                                              ),
+                                              customCircleIcon(
+                                                data: 'F',
+                                                onTap:
+                                                    () =>
+                                                        launchUri(AppUrl.gmail),
+                                              ),
+                                              customCircleIcon(
+                                                data: 'M',
+                                                onTap:
+                                                    () => launchUri(
+                                                      AppUrl.pubDev,
+                                                    ),
+                                              ),
+                                              customCircleIcon(
+                                                data: 'W',
+                                                onTap:
+                                                    () => launchUrl(
+                                                      Uri.parse(
+                                                        AppUrl.phoneCall,
+                                                      ),
+                                                    ),
+                                              ),
+                                            ],
+                                          ).padTop(40),
+                                        ],
+                                      ).padH(20).padV(20),
+                                    );
+                                  },
+                                  child: CustomWidgets.customIconWidget(
+                                    icon: Icons.share,
+                                    color: AppColors.hex1ed7,
+                                  ).padRight(10),
+                                ),
+                                CustomWidgets.customText(
+                                  data: 'Share',
+                                  style: BaseStyle.s16w900.c(AppColors.hex7777),
+                                ).padRight(10),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -191,6 +254,21 @@ class _ArtistsState extends ConsumerState<Artists> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget customCircleIcon({String? data, VoidCallback? onTap}) {
+    return CustomWidgets.customContainer(
+      onTap: onTap,
+      h: 50,
+      w: 50,
+      alignment: Alignment.center,
+      boxShape: BoxShape.circle,
+      color: AppColors.hex7777,
+      child: CustomWidgets.customText(
+        data: data ?? '',
+        style: BaseStyle.s19w900.c(AppColors.white),
       ),
     );
   }

@@ -12,6 +12,16 @@ class NotesNotifier extends StateNotifier<List<NoteModel>> {
     state = [...state, newNote];
   }
 
+  void toggleLike(String id, bool? isLiked) {
+    state = [
+      for (final note in state)
+        if (note.id == id)
+          note.copyWith(isLiked: !(note.isLiked ?? false))
+        else
+          note,
+    ];
+  }
+
   void remove(String id) {
     state = state.where((note) => note.id != id).toList();
   }

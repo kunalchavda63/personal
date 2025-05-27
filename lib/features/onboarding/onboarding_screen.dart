@@ -8,8 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:personal/core/app_ui/app_ui.dart';
 import 'package:personal/core/models/models.dart';
 import 'package:personal/core/services/navigation/src/route_constants.dart';
+import 'package:personal/core/utilities/src/helper_method.dart';
 import 'package:personal/core/utilities/src/strings.dart';
-import '../../core/utilities/src/helper/helper_method.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -20,6 +20,7 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   late Size size;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -81,7 +82,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ).padBottom(22),
             CustomWidgets.customGreenButton(
               onTap: () {
-                context.push(RoutesEnum.homeScreen.path);
+                context.push(RoutesEnum.artists.path);
               },
               text: AppStrings.signUpFree,
             ).padH(30).padBottom(12),

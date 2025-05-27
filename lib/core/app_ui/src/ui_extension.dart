@@ -60,4 +60,14 @@ extension CustomColors on ThemeData {
   Color get spotifyGreen => const Color(0XFF1DB954);
 }
 
+extension CustomBottomSheetExtension on BuildContext {
+  Future<void> showCustomBottomSheet({Color? bgColor, Widget? child}) {
+    return showModalBottomSheet(
+      context: this,
+      backgroundColor: bgColor,
+      builder: (_) => child ?? const SizedBox(),
+    );
+  }
+}
+
 // use that custom color Theme.of(context).spotifyGreen;
