@@ -9,6 +9,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final double scrollUnderElevation;
   final bool autoImplyLeading;
+  final double? height;
 
   const CustomAppbar({
     super.key,
@@ -20,6 +21,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation = 0,
     this.scrollUnderElevation = 0,
     this.autoImplyLeading = true,
+    this.height,
   });
 
   @override
@@ -33,9 +35,10 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       leading: leading,
       title: title,
       automaticallyImplyLeading: autoImplyLeading,
+      toolbarHeight: height,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(height ?? 60);
 }

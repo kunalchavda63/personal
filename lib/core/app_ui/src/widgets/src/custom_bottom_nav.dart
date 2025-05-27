@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:personal/core/models/src/bottom_nav_model.dart';
+import 'package:personal/core/models/models.dart';
 
 class CustomBottomNav extends StatelessWidget {
   final List<BottomNavModel> bottomNavList;

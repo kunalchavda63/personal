@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-import '../../models/enum.dart';
+import 'package:personal/core/app_ui/app_ui.dart';
 
 extension FontFamilyExtension on FontFamily {
   String get name {
@@ -14,12 +12,18 @@ extension FontFamilyExtension on FontFamily {
 // Extension on TextStyle for shorthand styling
 extension CustomTextStyle on TextStyle {
   TextStyle family(FontFamily family) => copyWith(fontFamily: family.name);
+
   TextStyle s(double size) => copyWith(fontSize: size);
+
   TextStyle w(int weight) =>
       copyWith(fontWeight: FontWeight.values[(weight ~/ 100) - 1]);
+
   TextStyle c(Color color) => copyWith(color: color);
+
   TextStyle letter(double size) => copyWith(letterSpacing: size);
+
   TextStyle line(double height) => copyWith(height: height);
+
   TextStyle style(FontStyle s) => copyWith(fontStyle: s);
 }
 
@@ -44,6 +48,7 @@ extension CustomPadding on Widget {
         ),
         child: this,
       );
+
   Padding padH(double horizontal) => Padding(
     padding: EdgeInsets.symmetric(horizontal: horizontal),
     child: this,
@@ -57,7 +62,7 @@ extension CustomPadding on Widget {
 }
 
 extension CustomColors on ThemeData {
-  Color get spotifyGreen => const Color(0XFF1DB954);
+  Color get spotifyGreen => AppColors.hex1ed7;
 }
 
 extension CustomBottomSheetExtension on BuildContext {
@@ -69,5 +74,3 @@ extension CustomBottomSheetExtension on BuildContext {
     );
   }
 }
-
-// use that custom color Theme.of(context).spotifyGreen;

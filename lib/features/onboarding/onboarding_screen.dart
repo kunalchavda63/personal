@@ -1,15 +1,11 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:go_router/go_router.dart';
 import 'package:personal/core/app_ui/app_ui.dart';
-import 'package:personal/core/models/models.dart';
-import 'package:personal/core/services/navigation/src/route_constants.dart';
-import 'package:personal/core/utilities/src/helper_method.dart';
-import 'package:personal/core/utilities/src/strings.dart';
+import 'package:personal/core/services/navigation/router.dart';
+import 'package:personal/core/utilities/utils.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -106,6 +102,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 try {
                   log('Tapped');
 
+                  if (isAndroid || isIos) {
+                    push(context, RoutesEnum.androidScreen.path);
+                  } else {
+                    push(context, RoutesEnum.windowScreen.path);
+                  }
                   Position position = await determinePosition();
                   List<Placemark> placeMark = await getListPlace(position);
                   print(placeMark.toString());

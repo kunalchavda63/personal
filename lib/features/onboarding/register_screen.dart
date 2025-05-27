@@ -1,10 +1,8 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:personal/core/app_ui/app_ui.dart';
-import 'package:personal/core/app_ui/src/widgets/src/app_outline_input_border.dart';
 import 'package:personal/core/services/navigation/src/route_constants.dart';
 import 'package:personal/core/utilities/utils.dart';
 

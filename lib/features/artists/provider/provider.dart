@@ -26,6 +26,8 @@ class NotesNotifier extends StateNotifier<List<NoteModel>> {
     state = state.where((note) => note.id != id).toList();
   }
 
+  void addComment() {}
+
   void updateList(String id, String title, String desc) {
     state = [
       for (final note in state)
@@ -40,3 +42,7 @@ class NotesNotifier extends StateNotifier<List<NoteModel>> {
 final notesProvider = StateNotifierProvider<NotesNotifier, List<NoteModel>>(
   (ref) => NotesNotifier(),
 );
+
+class CommentNotifier extends StateNotifier<List<Comment>> {
+  CommentNotifier() : super([]);
+}

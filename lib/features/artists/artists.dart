@@ -1,10 +1,7 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:personal/core/app_ui/src/widgets/src/app_outline_input_border.dart';
-import 'package:personal/core/models/models.dart';
 import 'package:personal/core/services/network/base/app_dio_manager.dart';
 import 'package:personal/core/utilities/src/app_url.dart';
 import 'package:personal/features/artists/provider/provider.dart';
@@ -107,149 +104,155 @@ class _ArtistsState extends ConsumerState<Artists> {
                   );
                 }
                 final note = todoList[index];
-                return CustomWidgets.customContainer(
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.center,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.hexF5f5),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomWidgets.customText(
-                            data: "${note.title} ${index + 1}" ?? '',
-                            style: BaseStyle.s20w900.c(AppColors.hex1ed7),
-                          ),
-                          Icon(
-                            Icons.drag_indicator,
-                            color: AppColors.hex1ed7,
-                            size: 30,
-                          ),
-                        ],
-                      ),
-                      CustomWidgets.customContainer(
-                        h: 200,
-                        w: size.width,
-                        child: CustomWidgets.customImageView(
-                          fit: BoxFit.cover,
-                          path: imageData,
-                          sourceType: ImageType.network,
-                        ),
-                      ),
-                      CustomWidgets.customContainer(
-                        h: 60,
-                        w: size.width,
-                        color: AppColors.hex1212,
-                        child: Row(
+                return CustomWidgets.customAnimationWrapper(
+                  animationType: AnimationType.scale,
+                  duration: Duration(milliseconds: 900),
+                  curve: Curves.decelerate,
+                  child: CustomWidgets.customContainer(
+                    padding: EdgeInsets.all(10),
+                    alignment: Alignment.center,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppColors.hexF5f5),
+                    child: Column(
+                      children: [
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    toggleLike(note.id, note.isLiked);
-                                  },
-                                  child: CustomWidgets.customIconWidget(
-                                    icon:
-                                        note.isLiked == true
-                                            ? Icons.circle
-                                            : Icons.circle_outlined,
-                                    color: AppColors.hex1ed7,
-                                  ).padLeft(10),
-                                ),
-                                CustomWidgets.customText(
-                                  data: 'Like',
-                                  style: BaseStyle.s16w900.c(AppColors.hex7777),
-                                ).padLeft(10),
-                              ],
+                            CustomWidgets.customText(
+                              data: "${note.title} ${index + 1}",
+                              style: BaseStyle.s20w900.c(AppColors.hex1ed7),
                             ),
-                            Row(
-                              children: [
-                                CustomWidgets.customIconWidget(
-                                  icon: Icons.comment_outlined,
-                                  color: AppColors.hex1ed7,
-                                ).padLeft(10),
-                                CustomWidgets.customText(
-                                  data: 'Comment',
-                                  style: BaseStyle.s16w900.c(AppColors.hex7777),
-                                ).padLeft(10),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    const data = imageData;
-                                    context.showCustomBottomSheet(
-                                      bgColor: AppColors.hex1212,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          CustomWidgets.customText(
-                                            data: AppStrings.share,
-                                            style: BaseStyle.s10w700.c(
-                                              AppColors.white,
-                                            ),
-                                          ),
-                                          CustomWidgets.customCanCopyText(
-                                            data,
-                                          ).padTop(20),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              customCircleIcon(
-                                                data: 'C',
-                                                onTap:
-                                                    () => launchUri(imageData),
-                                              ),
-                                              customCircleIcon(
-                                                data: 'F',
-                                                onTap:
-                                                    () =>
-                                                        launchUri(AppUrl.gmail),
-                                              ),
-                                              customCircleIcon(
-                                                data: 'M',
-                                                onTap:
-                                                    () => launchUri(
-                                                      AppUrl.pubDev,
-                                                    ),
-                                              ),
-                                              customCircleIcon(
-                                                data: 'W',
-                                                onTap:
-                                                    () => launchUrl(
-                                                      Uri.parse(
-                                                        AppUrl.phoneCall,
-                                                      ),
-                                                    ),
-                                              ),
-                                            ],
-                                          ).padTop(40),
-                                        ],
-                                      ).padH(20).padV(20),
-                                    );
-                                  },
-                                  child: CustomWidgets.customIconWidget(
-                                    icon: Icons.share,
-                                    color: AppColors.hex1ed7,
-                                  ).padRight(10),
-                                ),
-                                CustomWidgets.customText(
-                                  data: 'Share',
-                                  style: BaseStyle.s16w900.c(AppColors.hex7777),
-                                ).padRight(10),
-                              ],
+                            CustomWidgets.customIconWidget(
+                              icon: Icons.drag_indicator,
+                              color: AppColors.hex1ed7,
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ).padV(10).padH(10);
+                        CustomWidgets.customContainer(
+                          h: 200,
+                          w: size.width,
+                          child: CustomWidgets.customImageView(
+                            fit: BoxFit.cover,
+                            path: imageData,
+                            sourceType: ImageType.network,
+                          ),
+                        ),
+                        CustomWidgets.customContainer(
+                          h: 60,
+                          w: size.width,
+                          color: AppColors.hex1212,
+                          child: Row(
+                            children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      toggleLike(note.id, note.isLiked);
+                                    },
+                                    child: CustomWidgets.customIconWidget(
+                                      icon:
+                                          note.isLiked == true
+                                              ? Icons.circle
+                                              : Icons.circle_outlined,
+                                      color: AppColors.hex1ed7,
+                                    ).padLeft(10),
+                                  ).padRight(10),
+                                  CustomWidgets.customText(
+                                    data: '1',
+                                    style: BaseStyle.s19w900.c(
+                                      AppColors.hex1ed7,
+                                    ),
+                                  ),
+                                ],
+                              ).padRight(10),
+                              Row(
+                                children: [
+                                  CustomWidgets.customIconWidget(
+                                    icon: Icons.comment_outlined,
+                                    color: AppColors.hex1ed7,
+                                  ).padRight(10),
+                                  CustomWidgets.customText(
+                                    data: '1',
+                                    style: BaseStyle.s19w900.c(
+                                      AppColors.hex1ed7,
+                                    ),
+                                  ),
+                                ],
+                              ).padRight(10),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      const data = imageData;
+                                      context.showCustomBottomSheet(
+                                        bgColor: AppColors.hex1212,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            CustomWidgets.customText(
+                                              data: AppStrings.share,
+                                              style: BaseStyle.s10w700.c(
+                                                AppColors.white,
+                                              ),
+                                            ),
+                                            CustomWidgets.customCanCopyText(
+                                              data,
+                                            ).padTop(20),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                customCircleIcon(
+                                                  data: 'C',
+                                                  onTap:
+                                                      () =>
+                                                          launchUri(imageData),
+                                                ),
+                                                customCircleIcon(
+                                                  data: 'F',
+                                                  onTap:
+                                                      () => launchUri(
+                                                        AppUrl.gmail,
+                                                      ),
+                                                ),
+                                                customCircleIcon(
+                                                  data: 'M',
+                                                  onTap:
+                                                      () => launchUri(
+                                                        AppUrl.pubDev,
+                                                      ),
+                                                ),
+                                                customCircleIcon(
+                                                  data: 'W',
+                                                  onTap:
+                                                      () => launchUrl(
+                                                        Uri.parse(
+                                                          AppUrl.phoneCall,
+                                                        ),
+                                                      ),
+                                                ),
+                                              ],
+                                            ).padTop(40),
+                                          ],
+                                        ).padH(20).padV(20),
+                                      );
+                                    },
+                                    child: CustomWidgets.customIconWidget(
+                                      icon: Icons.share,
+                                      color: AppColors.hex1ed7,
+                                    ).padRight(10),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ).padV(10).padH(10),
+                );
               },
             ),
           ),

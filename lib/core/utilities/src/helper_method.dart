@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Future<bool> takeLocationPermission() async {
@@ -57,9 +58,7 @@ Future<Position> determinePosition() async {
     );
   }
 
-  final position = await Geolocator.getCurrentPosition(
-    desiredAccuracy: LocationAccuracy.high,
-  );
+  final position = await Geolocator.getCurrentPosition();
   debugPrint('📍 Got position: ${position.latitude}, ${position.longitude}');
   return position;
 }
@@ -83,4 +82,16 @@ Future<void> launchUri(String uri) async {
   if (!canLaunch) {
     throw Exception('Could not launch $uri');
   }
+}
+
+void push(BuildContext context, String path) {
+  context.push(path);
+}
+
+void go(BuildContext context, String path) {
+  context.go(path);
+}
+
+void back(BuildContext context) {
+  context.pop();
 }

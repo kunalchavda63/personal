@@ -1,10 +1,4 @@
-import 'package:go_router/go_router.dart';
-import 'package:personal/core/services/navigation/src/route_constants.dart';
-import 'package:personal/features/artists/artists.dart';
-import 'package:personal/features/onboarding/login_screen.dart';
-import 'package:personal/features/onboarding/onboarding_screen.dart';
-import 'package:personal/features/onboarding/otp_screen.dart';
-import 'package:personal/features/onboarding/register_screen.dart';
+import 'routes.dart';
 
 final goRouterConfig = GoRouter(
   initialLocation: RoutesEnum.onboard.path,
@@ -34,6 +28,12 @@ final goRouterConfig = GoRouter(
       name: RoutesEnum.artists.name,
       path: RoutesEnum.artists.path,
       pageBuilder: (_, __) => const NoTransitionPage(child: Artists()),
+    ),
+
+    GoRoute(
+      name: RoutesEnum.androidScreen.name,
+      path: RoutesEnum.androidScreen.path,
+      pageBuilder: (_, __) => NoTransitionPage(child: AHomeScreen()),
     ),
   ],
 );

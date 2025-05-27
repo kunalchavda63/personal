@@ -4,12 +4,13 @@ enum RoutesEnum {
   register('/register'),
   artists('/artists'),
   podcasts('/podcasts'),
-
   otp('/otp'),
   screen('/screen'),
   homeScreen('/homeScreen'),
-  viewScreen('/viewScreen');
+  androidScreen('/androidScreen'),
+  windowScreen('/windowsScreen');
 
   const RoutesEnum(this.path);
+
   final String path;
 }

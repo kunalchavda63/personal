@@ -5,3 +5,4 @@ export 'package:personal/features/onboarding/login_screen.dart';
 export 'package:personal/features/onboarding/onboarding_screen.dart';
 export 'package:personal/features/onboarding/otp_screen.dart';
 export 'package:personal/features/onboarding/register_screen.dart';
+export 'package:personal/features/screen/android/home_screen.dart';

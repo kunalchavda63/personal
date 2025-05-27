@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:personal/core/app_ui/app_ui.dart';
-import 'package:personal/core/utilities/src/helper_method.dart';
+import 'package:personal/core/utilities/utils.dart';
 
 class CustomCanCopy extends StatelessWidget {
   final String? text;

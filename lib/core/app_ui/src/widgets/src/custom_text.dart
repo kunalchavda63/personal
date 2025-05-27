@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CustomText extends StatelessWidget {
   final String data;
@@ -47,6 +47,7 @@ class CustomText extends StatelessWidget {
       style: style,
       overflow: overflow,
       strutStyle: strutStyle,
+      maxLines: maxLines,
       textAlign: textAlign,
       textDirection: textDirection,
       locale: locale,
