@@ -10,6 +10,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final double scrollUnderElevation;
   final bool autoImplyLeading;
   final double? height;
+  final List<Widget>? actions;
 
   const CustomAppbar({
     super.key,
@@ -22,11 +23,13 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.scrollUnderElevation = 0,
     this.autoImplyLeading = true,
     this.height,
+    this.actions,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      actions: actions,
       backgroundColor: bgColor,
       bottomOpacity: bottomOpacity,
       elevation: elevation,

@@ -2,8 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:personal/core/services/network/base/app_dio_manager.dart';
+import 'package:personal/core/models/src/pop_up_model.dart';
 import 'package:personal/core/utilities/src/app_url.dart';
+import 'package:personal/core/utilities/src/extensions/logger/logger.dart';
 import 'package:personal/features/artists/provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -43,9 +44,12 @@ class _ArtistsState extends ConsumerState<Artists> {
         'https://images.pexels.com/photos/206901/pexels-photo-206901.jpeg?auto=compress&cs=tinysrgb&w=1200';
     final todoList = ref.watch(notesProvider);
     final operation = ref.read(notesProvider.notifier);
+    final GlobalKey _popupButtonKey = GlobalKey();
 
     void addNote(String title, String subtitle) {
       operation.addNote(title, subtitle);
+      final user = NoteModel(title: 'Posts', description: 'Description');
+      logModelBox("👤 User Details", user.toJson());
     }
 
     void toggleLike(String id, bool? isLiked) {
@@ -60,6 +64,41 @@ class _ArtistsState extends ConsumerState<Artists> {
       backgroundColor: AppColors.hex1212,
       appBar: CustomWidgets.customAppBar(
         title: Text('Todo App', style: BaseStyle.s16w900.c(AppColors.white)),
+        actions: [
+          IconButton(
+            key: _popupButtonKey,
+            onPressed: () async {
+              final result = await context.showCustomPopupMenu(
+                itemBuilder:
+                    (item) => CustomWidgets.customContainer(
+                      child: Row(
+                        children: [Text(item.data, style: BaseStyle.s10w700)],
+                      ),
+                    ),
+                anchorKey: _popupButtonKey,
+                items: [
+                  PopUpModel(id: 'group', data: 'New group', value: 'a'),
+                  PopUpModel(
+                    id: 'broadcast',
+                    data: 'New broadcast',
+                    value: 'a',
+                  ),
+                  PopUpModel(id: 'linked', data: 'Linked devices', value: 'a'),
+                  PopUpModel(id: 'starred', data: 'Starred', value: 'a'),
+                  PopUpModel(id: 'payments', data: 'Payments', value: 'a'),
+                ],
+                context: context,
+              );
+              if (result != null) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('Selected : $result')));
+              }
+            },
+            icon: Icon(Icons.more_vert),
+            color: AppColors.hexF5f5,
+          ),
+        ],
         bgColor: AppColors.hex1212,
         elevation: 100,
       ),
@@ -68,9 +107,6 @@ class _ArtistsState extends ConsumerState<Artists> {
         label: 'g',
         onTap: () async {
           addNote('Post', 'Description');
-          fetchData();
-
-          log('Press Btn');
         },
         child: Icon(Icons.add, color: AppColors.white),
       ),
@@ -105,7 +141,7 @@ class _ArtistsState extends ConsumerState<Artists> {
                 }
                 final note = todoList[index];
                 return CustomWidgets.customAnimationWrapper(
-                  animationType: AnimationType.scale,
+                  animationType: AnimationType.fadeScale,
                   duration: Duration(milliseconds: 900),
                   curve: Curves.decelerate,
                   child: CustomWidgets.customContainer(
@@ -123,7 +159,7 @@ class _ArtistsState extends ConsumerState<Artists> {
                               style: BaseStyle.s20w900.c(AppColors.hex1ed7),
                             ),
                             CustomWidgets.customIconWidget(
-                              icon: Icons.drag_indicator,
+                              icon: Icons.more_vert,
                               color: AppColors.hex1ed7,
                             ),
                           ],
@@ -147,7 +183,7 @@ class _ArtistsState extends ConsumerState<Artists> {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      toggleLike(note.id, note.isLiked);
+                                      toggleLike(note.id!, note.isLiked);
                                     },
                                     child: CustomWidgets.customIconWidget(
                                       icon:
@@ -205,27 +241,27 @@ class _ArtistsState extends ConsumerState<Artists> {
                                                       .spaceBetween,
                                               children: [
                                                 customCircleIcon(
-                                                  data: 'C',
+                                                  data: AssetIcons.icChrome,
                                                   onTap:
                                                       () =>
                                                           launchUri(imageData),
                                                 ),
                                                 customCircleIcon(
-                                                  data: 'F',
+                                                  data: AssetIcons.icFacebook,
                                                   onTap:
                                                       () => launchUri(
                                                         AppUrl.gmail,
                                                       ),
                                                 ),
                                                 customCircleIcon(
-                                                  data: 'M',
+                                                  data: AssetIcons.icGoogle,
                                                   onTap:
                                                       () => launchUri(
                                                         AppUrl.pubDev,
                                                       ),
                                                 ),
                                                 customCircleIcon(
-                                                  data: 'W',
+                                                  data: AssetIcons.icWhatsapp,
                                                   onTap:
                                                       () => launchUrl(
                                                         Uri.parse(
@@ -268,10 +304,13 @@ class _ArtistsState extends ConsumerState<Artists> {
       w: 50,
       alignment: Alignment.center,
       boxShape: BoxShape.circle,
-      color: AppColors.hex7777,
-      child: CustomWidgets.customText(
-        data: data ?? '',
-        style: BaseStyle.s19w900.c(AppColors.white),
+      color: AppColors.hex2828,
+      clip: Clip.antiAlias,
+      child: SvgPicture.asset(
+        data ?? AssetIcons.icChrome,
+        height: 30,
+        width: 30,
+        fit: BoxFit.cover,
       ),
     );
   }

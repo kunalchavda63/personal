@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:personal/core/models/src/note_model.dart';
 import 'package:uuid/uuid.dart';
@@ -10,6 +11,7 @@ class NotesNotifier extends StateNotifier<List<NoteModel>> {
   void addNote(String? title, String? desc) {
     final newNote = NoteModel(id: _uuid.v4(), title: title, description: desc);
     state = [...state, newNote];
+    debugPrint(newNote.toString());
   }
 
   void toggleLike(String id, bool? isLiked) {

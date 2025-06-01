@@ -1,15 +1,24 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 class ApiResponse<T> {
   final T? data;
   final String? message;
   final bool success;
+  final int? statusCode;
 
-  ApiResponse({this.data, this.message, required this.success});
+  ApiResponse({
+    this.data,
+    this.message,
+    required this.success,
+    this.statusCode,
+  });
+
   factory ApiResponse.success(T data) {
     return ApiResponse<T>(data: data, success: true);
   }
+
   factory ApiResponse.error(String message) {
     return ApiResponse<T>(message: message, success: false);
   }
@@ -35,9 +44,10 @@ class HttpMethod {
   ) async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl'),
+        Uri.parse('$baseUrl$endpoint'),
         headers: defaultHeaders,
       );
+
       print(response.body);
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);

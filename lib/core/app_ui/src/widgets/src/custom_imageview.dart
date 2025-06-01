@@ -1,10 +1,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 import 'package:personal/core/app_ui/app_ui.dart';
-
-import '../../../../models/models.dart';
 
 class CustomImageView extends StatelessWidget {
   final String path;

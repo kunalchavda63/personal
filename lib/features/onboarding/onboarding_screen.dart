@@ -25,6 +25,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const imageData =
+        'https://images.pexels.com/photos/1097456/pexels-photo-1097456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+
     return Scaffold(
       backgroundColor: AppColors.hex1212,
       body: SingleChildScrollView(
@@ -35,8 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               alignment: Alignment.center,
               children: [
                 CustomWidgets.customImageView(
-                  path:
-                      'https://images.pexels.com/photos/1097456/pexels-photo-1097456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+                  path: imageData,
                   sourceType: ImageType.network,
                   height: 350,
                   width: size.width,
@@ -72,31 +74,37 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               data: AppStrings.millionsOfSong,
               style: BaseStyle.s28w900.c(AppColors.white),
             ).padTop(34),
-            Text(
-              AppStrings.freeOnSpotify,
+            CustomWidgets.customText(
+              data: AppStrings.freeOnSpotify,
               style: BaseStyle.s28w900.c(AppColors.white),
             ).padBottom(22),
             CustomWidgets.customGreenButton(
               onTap: () {
-                context.push(RoutesEnum.artists.path);
+                push(context, RoutesEnum.artists.path);
               },
               text: AppStrings.signUpFree,
             ).padH(30).padBottom(12),
             CustomWidgets.customWhiteBorderButton(
+              onTap: () {
+                push(context, RoutesEnum.panelDemo.path);
+              },
               buttonTitle: "${AppStrings.continueWith} ${AppStrings.google}",
               style: BaseStyle.s16w900.c(AppColors.hexF5f5).c(AppColors.white),
               path: AssetIcons.icGoogle,
             ).padH(30).padBottom(12),
+
             CustomWidgets.customWhiteBorderButton(
               buttonTitle: "${AppStrings.continueWith} ${AppStrings.facebook}",
               style: BaseStyle.s16w900.c(AppColors.hexF5f5).c(AppColors.white),
               path: AssetIcons.icFacebook,
             ).padH(30).padBottom(12),
+
             CustomWidgets.customWhiteBorderButton(
               buttonTitle: "${AppStrings.continueWith} ${AppStrings.apple}",
               style: BaseStyle.s16w900.c(AppColors.hexF5f5).c(AppColors.white),
               path: AssetIcons.icApple,
             ).padH(30).padBottom(14),
+
             GestureDetector(
               onTap: () async {
                 try {
@@ -118,8 +126,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 }
               },
 
-              child: Text(
-                AppStrings.logIn,
+              child: CustomWidgets.customText(
+                data: AppStrings.logIn,
                 style: BaseStyle.s16w900.c(AppColors.hexF5f5),
               ).padBottom(MediaQuery.of(context).viewPadding.bottom + 54),
             ),

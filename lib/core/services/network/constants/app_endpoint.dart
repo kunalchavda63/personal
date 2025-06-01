@@ -1,3 +1,3 @@
 class ApiEndPoints {
-  static const localDataGet = '';
+  static const localDataGet = 'auth/users';
 }

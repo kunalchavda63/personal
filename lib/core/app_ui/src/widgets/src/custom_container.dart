@@ -13,6 +13,7 @@ class CustomContainer extends StatelessWidget {
   final Alignment? alignment;
   final BoxShape? boxShape;
   final BlendMode? blendMode;
+  final Clip? clipBehaviour;
 
   const CustomContainer({
     super.key,
@@ -28,6 +29,7 @@ class CustomContainer extends StatelessWidget {
     this.alignment,
     this.boxShape,
     this.blendMode,
+    this.clipBehaviour,
   });
 
   @override
@@ -48,6 +50,7 @@ class CustomContainer extends StatelessWidget {
           shape: boxShape ?? BoxShape.rectangle,
         ),
         child: child,
+        clipBehavior: clipBehaviour ?? Clip.none,
       ),
     );
   }

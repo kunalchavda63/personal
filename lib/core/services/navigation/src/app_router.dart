@@ -1,3 +1,5 @@
+import 'package:personal/features/panel_demo/panel_demo.dart';
+
 import 'routes.dart';
 
 final goRouterConfig = GoRouter(
@@ -34,6 +36,11 @@ final goRouterConfig = GoRouter(
       name: RoutesEnum.androidScreen.name,
       path: RoutesEnum.androidScreen.path,
       pageBuilder: (_, __) => NoTransitionPage(child: AHomeScreen()),
+    ),
+    GoRoute(
+      name: RoutesEnum.panelDemo.name,
+      path: RoutesEnum.panelDemo.path,
+      pageBuilder: (_, __) => NoTransitionPage(child: PanelDemo()),
     ),
   ],
 );

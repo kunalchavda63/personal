@@ -56,6 +56,7 @@ class CustomWidgets {
     List<BoxShadow>? boxShadow,
     Alignment? alignment,
     BlendMode? blendMode,
+    Clip? clip,
   }) {
     return CustomContainer(
       h: h,
@@ -70,6 +71,7 @@ class CustomWidgets {
       alignment: alignment,
       boxShape: boxShape,
       blendMode: blendMode,
+      clipBehaviour: clip,
     );
   }
 
@@ -130,6 +132,7 @@ class CustomWidgets {
     double? scrollUnderElevation,
     bool? autoImplyLeading,
     double? height,
+    List<Widget>? actions,
   }) {
     return CustomAppbar(
       leading: leading,
@@ -141,6 +144,7 @@ class CustomWidgets {
       scrollUnderElevation: scrollUnderElevation ?? 0,
       autoImplyLeading: autoImplyLeading ?? true,
       height: height ?? 60,
+      actions: actions,
     );
   }
 
@@ -241,7 +245,7 @@ class CustomWidgets {
   }
 
   // Custom Can Copy Text
-  static Widget customCanCopyText(String? text) {
+  static Widget customCanCopyText(String text) {
     return CustomCanCopy(text: text);
   }
 

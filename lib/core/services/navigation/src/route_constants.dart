@@ -7,6 +7,7 @@ enum RoutesEnum {
   otp('/otp'),
   screen('/screen'),
   homeScreen('/homeScreen'),
+  panelDemo('/panelDemo'),
   androidScreen('/androidScreen'),
   windowScreen('/windowsScreen');
 

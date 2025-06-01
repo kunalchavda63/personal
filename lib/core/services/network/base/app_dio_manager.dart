@@ -2,15 +2,24 @@ import 'package:personal/core/services/network/base/abstract_dio_manager.dart';
 import 'package:personal/core/services/network/constants/app_endpoint.dart';
 
 final api = HttpMethod();
-
-void fetchData() async {
-  final response = await api.get<Map<String, dynamic>>(
+Future<ApiResponse<List<Map<String, dynamic>>>> fetchLocalDataList() {
+  return HttpMethod().get<List<Map<String, dynamic>>>(
     ApiEndPoints.localDataGet,
-    (json) => Map<String, dynamic>.from(json),
+    (json) => List<Map<String, dynamic>>.from(
+      (json as List).map((item) => Map<String, dynamic>.from(item)),
+    ),
   );
+}
+
+void fetchDataList() async {
+  final response = await fetchLocalDataList();
+
   if (response.success) {
-    print('Data : ${response.data}');
+    final List<Map<String, dynamic>> dataList = response.data!;
+    for (var item in dataList) {
+      print('Item: $item');
+    }
   } else {
-    print('Error : ${response.message}');
+    print('Error: ${response.message}');
   }
 }

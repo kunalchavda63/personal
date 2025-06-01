@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:personal/core/app_ui/app_ui.dart';
 
 class CustomGreenButton extends StatelessWidget {
   final String? text;
   final VoidCallback? onTap;
   final TextStyle? style;
+
   const CustomGreenButton({super.key, this.text, this.onTap, this.style});
 
   @override
@@ -18,7 +18,10 @@ class CustomGreenButton extends StatelessWidget {
       alignment: Alignment.center,
       borderRadius: BorderRadius.circular(45),
 
-      child: Text(text ?? '', style: style ?? BaseStyle.s16w900),
+      child: CustomWidgets.customText(
+        data: text ?? '',
+        style: style ?? BaseStyle.s16w900,
+      ),
     );
   }
 }

@@ -1,16 +1,17 @@
 class NoteModel {
-  final String id;
+  final String? id;
   final String? title;
   final String? description;
   final List<Comment>? listComment;
   bool? isLiked;
   NoteModel({
-    required this.id,
+    this.id,
     required this.title,
     required this.description,
     this.isLiked = false,
     this.listComment,
   });
+  Map<String, dynamic> toJson() => {'title': title, 'description': description};
 
   NoteModel copyWith({String? title, String? description, bool? isLiked}) {
     return NoteModel(

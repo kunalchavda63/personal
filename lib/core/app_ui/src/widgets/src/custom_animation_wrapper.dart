@@ -53,9 +53,9 @@ class _CustomAnimatedWrapperState extends State<CustomAnimatedWrapper>
   Offset _getOffset(AnimationType type) {
     switch (type) {
       case AnimationType.slideFromTop:
-        return const Offset(0, -0.1);
+        return const Offset(0, -0.9);
       case AnimationType.slideFromBottom:
-        return const Offset(0, 0.1);
+        return const Offset(-0.0, -0.8);
       case AnimationType.slideFromLeft:
         return const Offset(-0.1, 0);
       case AnimationType.slideFromRight:
