@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class ApiResponse<T> {
@@ -31,7 +32,9 @@ class HttpMethod {
 
   HttpMethod._internal();
 
-  final String baseUrl = 'http://10.0.2.2:8001/';
+  final String baseUrl = 'https://jsonplaceholder.typicode.com/';
+
+  // final String baseUrl = 'http://10.0.2.2:8001/';
 
   Map<String, String> get defaultHeaders => {
     'Content-Type': 'application/json',
@@ -47,8 +50,7 @@ class HttpMethod {
         Uri.parse('$baseUrl$endpoint'),
         headers: defaultHeaders,
       );
-
-      print(response.body);
+      debugPrint(response.body);
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         return ApiResponse.success(fromJson(jsonData));
